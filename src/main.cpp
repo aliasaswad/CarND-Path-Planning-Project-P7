@@ -49,6 +49,19 @@ vector<double> getXY(double s, double d, const vector<double> &maps_s, const vec
 	return {x,y};
 }
 
+// json object in str format will be returned, else the empty str
+string has_data(string s) {
+  auto found_null = s.find("null");
+  auto b1 = s.find_first_of("[");
+  auto b2 = s.find_first_of("}");
+  if (found_null != string::npos) {
+    return "";
+  } else if (b1 != string::npos && b2 != string::npos) {
+    return s.substr(b1, b2 - b1 + 2);
+  }
+  return "";
+}
+
 int main() {
   uWS::Hub h;
 
