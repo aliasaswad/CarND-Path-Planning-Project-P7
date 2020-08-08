@@ -111,20 +111,40 @@ vector<double> get_Frenet(double x, double y, double theta, const vector<double>
 
 }
 
-int next_waypoint(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y){
+int get_next_waypoint(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y){
 
-  int closestWaypoint = ClosestWaypoint(x,y,maps_x,maps_y);
-  double map_x = maps_x[closestWaypoint];
-  double map_y = maps_y[closestWaypoint];
+  int closest_waypoint = ClosestWaypoint(x,y,maps_x,maps_y);
+  double map_x = maps_x[closest_waypoint];
+  double map_y = maps_y[closest_waypoint];
   double heading = atan2( (map_y-y),(map_x-x) );
   double angle = abs(theta-heading);
 
   if(angle > pi()/4)
   {
-    closestWaypoint++;
+    closest_waypoint++;
   }
-  return closestWaypoint;
+  return closest_waypoint;
 }
+
+int get_closest_waypoint(double x, double y, const vector<double> &maps_x, const vector<double> &maps_y){
+
+  double closest_len = 100000; //large number
+  int closest_waypoint = 0;
+
+  for(int i = 0; i < maps_x.size(); i++)
+  {
+    double map_x = maps_x[i];
+    double map_y = maps_y[i];
+    double dist = distance(x,y,map_x,map_y);
+    if(dist < closest_len)
+    {
+      closest_len = dist;
+      closest_waypoint = i;
+    }
+  }
+  return closest_waypoint;
+}
+
 
 int main() {
   uWS::Hub h;
