@@ -56,7 +56,7 @@ int main() {
 
   //have a ref. velocity to target
   double ref_vel = 49.5;  //mph
-  
+
   h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,
                &map_waypoints_dx,&map_waypoints_dy]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
@@ -95,6 +95,9 @@ int main() {
           //   of the road.
           auto sensor_fusion = j[1]["sensor_fusion"];
 
+          int prev_size = previous_path_x.size();
+
+          
           json msgJson;
 
           vector<double> next_x_vals;
