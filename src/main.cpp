@@ -303,6 +303,28 @@ int main() {
           double ref_y = car_y;
           double ref_yaw = deg_to_rad(car_yaw);
 
+          // Do I have have previous points
+          if (prev_size < 2){
+              // There are not too many...
+              double prev_car_x = car_x - cos(car_yaw);
+              double prev_car_y = car_y - sin(car_yaw);
+              ptsx.push_back(prev_car_x);
+              ptsx.push_back(car_x);
+              ptsy.push_back(prev_car_y);
+              ptsy.push_back(car_y);
+          }else{
+              // Use the last two points.
+              ref_x = previous_path_x[prev_size - 1];
+              ref_y = previous_path_y[prev_size - 1];
+              double ref_x_prev = previous_path_x[prev_size - 2];
+              double ref_y_prev = previous_path_y[prev_size - 2];
+              ref_yaw = atan2(ref_y-ref_y_prev, ref_x-ref_x_prev);
+              ptsx.push_back(ref_x_prev);
+              ptsx.push_back(ref_x);
+              ptsy.push_back(ref_y_prev);
+              ptsy.push_back(ref_y);
+          }
+
           json msgJson;
 
           vector<double> next_x_vals;
