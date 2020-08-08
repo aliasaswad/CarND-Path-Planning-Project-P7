@@ -239,7 +239,7 @@ int main() {
           bool car_ahead = false;
           bool car_left = false;
           bool car_righ = false;
-          for ( int i = 0; i < sensor_fusion.size(); i++ ) {
+          for ( int i = 0; i < sensor_fusion.size(); i++ ){
               float d = sensor_fusion[i][6];
               int car_lane = -1;
               // is it on the same lane we are
@@ -271,6 +271,37 @@ int main() {
                 car_righ |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
               }
           }  
+
+          // Check what we need to to (behav)
+          double speed_diff = 0;
+          const double max_spd = 49.5;
+          const double max_accel = .224;
+          if ( car_ahead ) { // Car ahead
+            if ( !car_left && lane > 0 ) {
+              // if there is no car left and there is a left lane.
+              lane--; // Change lane left.
+            } else if ( !car_righ && lane != 2 ){
+             // if there is no car right and there is a right lane.
+              lane++; // Change lane right.
+            } else {
+              speed_diff -= max_accel;
+            }
+          } else {
+            if ( lane != 1 ) { // if we are not on the center lane.
+              if ( ( lane == 0 && !car_righ ) || ( lane == 2 && !car_left ) ) {
+                lane = 1; // Back to center.
+              }
+            }
+            if ( ref_vel < max_spd ) {
+              speed_diff += max_accel;
+            }
+          }
+
+		  vector<double> ptsx;
+          vector<double> ptsy;
+          double ref_x = car_x;
+          double ref_y = car_y;
+          double ref_yaw = deg_to_rad(car_yaw);
 
           json msgJson;
 
