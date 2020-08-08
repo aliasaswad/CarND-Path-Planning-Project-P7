@@ -231,7 +231,47 @@ int main() {
 
           int prev_size = previous_path_x.size();
 
-          
+          // Preventing collitions.
+          if (prev_size > 0) {
+          	car_s = end_path_s;
+          }
+          // Predict neighbor cars positions
+          bool car_ahead = false;
+          bool car_left = false;
+          bool car_righ = false;
+          for ( int i = 0; i < sensor_fusion.size(); i++ ) {
+              float d = sensor_fusion[i][6];
+              int car_lane = -1;
+              // is it on the same lane we are
+              if ( d > 0 && d < 4 ) {
+                car_lane = 0;
+              } else if ( d > 4 && d < 8 ) {
+                car_lane = 1;
+              } else if ( d > 8 && d < 12 ) {
+                car_lane = 2;
+              }
+              if (car_lane < 0) {
+                continue;
+              }
+              // Find car speed.
+              double vx = sensor_fusion[i][3];
+              double vy = sensor_fusion[i][4];
+              double check_speed = sqrt(vx*vx + vy*vy);
+              double check_car_s = sensor_fusion[i][5];
+              // Estimate car s position after executing previous trajectory.
+              check_car_s += ((double)prev_size*0.02*check_speed);
+              if ( car_lane == lane ) {
+                // Car in our lane.
+                car_ahead |= check_car_s > car_s && check_car_s - car_s < 30;
+              } else if ( car_lane - lane == -1 ) {
+                // Car left
+                car_left |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+              } else if ( car_lane - lane == 1 ) {
+                // Car right
+                car_righ |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
+              }
+          }  
+
           json msgJson;
 
           vector<double> next_x_vals;
