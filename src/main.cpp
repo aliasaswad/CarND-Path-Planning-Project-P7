@@ -111,6 +111,21 @@ vector<double> get_Frenet(double x, double y, double theta, const vector<double>
 
 }
 
+int next_waypoint(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y){
+
+  int closestWaypoint = ClosestWaypoint(x,y,maps_x,maps_y);
+  double map_x = maps_x[closestWaypoint];
+  double map_y = maps_y[closestWaypoint];
+  double heading = atan2( (map_y-y),(map_x-x) );
+  double angle = abs(theta-heading);
+
+  if(angle > pi()/4)
+  {
+    closestWaypoint++;
+  }
+  return closestWaypoint;
+}
+
 int main() {
   uWS::Hub h;
 
