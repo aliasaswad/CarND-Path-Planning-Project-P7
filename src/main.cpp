@@ -3,17 +3,24 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
+#include <thread>
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "helpers.h"
 #include "json.hpp"
 #include "spline.h"
+#include <math.h>
+
 
 // for convenience
 using nlohmann::json;
 using std::string;
 using std::vector;
 
+constexpr double pi() { return M_PI; }
+double deg_2_rad(double x) { return x * pi() / 180; }
+double rad_2_deg(double x) { return x * 180 / pi(); }
 
 double distance(double x1, double y1, double x2, double y2)
 {
