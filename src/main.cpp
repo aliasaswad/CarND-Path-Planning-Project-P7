@@ -14,6 +14,12 @@ using nlohmann::json;
 using std::string;
 using std::vector;
 
+
+double distance(double x1, double y1, double x2, double y2)
+{
+	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+}
+
 int main() {
   uWS::Hub h;
 
