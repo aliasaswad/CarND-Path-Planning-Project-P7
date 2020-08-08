@@ -17,6 +17,8 @@
 using nlohmann::json;
 using std::string;
 using std::vector;
+using namespace std;
+//using json = nlohmann::json;
 
 constexpr double pi() { return M_PI; }
 double deg_to_rad(double x) { return x * pi() / 180; }
