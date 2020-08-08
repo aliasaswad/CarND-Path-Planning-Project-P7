@@ -387,24 +387,21 @@ int main() {
 
           json msgJson;
 
-          vector<double> next_x_vals;
-          vector<double> next_y_vals;
+	//       /**
+    //        * TODO: define a path made up of (x,y) points that the car will visit
+    //        *   sequentially every .02 seconds
+    //        */
+    //       double dist_inc = 0.3;
+		  // for (int i = 0; i < 50; ++i) {
+		  // 	double next_s = car_s + (i+1)*dist_inc;
+		  // 	double next_d = 6;
+		  // 	vector<double> xy = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
-          /**
-           * TODO: define a path made up of (x,y) points that the car will visit
-           *   sequentially every .02 seconds
-           */
-          double dist_inc = 0.3;
-		  for (int i = 0; i < 50; ++i) {
-		  	double next_s = car_s + (i+1)*dist_inc;
-		  	double next_d = 6;
-		  	vector<double> xy = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+  		// 	next_x_vals.push_back([0]);
+  		// 	next_y_vals.push_back([1]);
+		  // }
 
-  			next_x_vals.push_back([0]);
-  			next_y_vals.push_back([1]);
-		  }
-
-          //End
+    //       //End
 
           msgJson["next_x"] = next_x_vals;
           msgJson["next_y"] = next_y_vals;
@@ -420,6 +417,17 @@ int main() {
       }
     }  // end websocket if
   }); // end h.onMessage
+
+  h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req, char *data, size_t, size_t){
+    //std::cout << "Connected!!!" << std::endl;
+    const std::string s = "<h1>Hi!!!</h1>";
+    if (req.getUrl().valueLength == 1) {
+      res->end(s.data(), s.length());
+    } else {
+      // i guess this should be done more gracefully?
+      res->end(nullptr, 0);
+    }
+  });
 
   h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req) {
     std::cout << "Connected!!!" << std::endl;
