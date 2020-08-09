@@ -20,11 +20,11 @@ using std::vector;
 using namespace std;
 //using json = nlohmann::json;
 
-constexpr double pi() { return M_PI; }
-double deg_to_rad(double x) { return x * pi() / 180; }
-double rad_to_deg(double x) { return x * 180 / pi(); }
+constexpr double pi() {return M_PI;}
+double deg_to_rad(double x) {return x * pi() / 180;}
+double rad_to_deg(double x) {return x * 180 / pi();}
 
-double distance(double x1, double y1, double x2, double y2)
+double calc_distance(double x1, double y1, double x2, double y2)
 {
 	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
@@ -67,7 +67,7 @@ string has_data(string s) {
 // Convert cartesian x,y to Frenet s,d
 vector<double> get_Frenet(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y)
 {
-  int next_wp = NextWaypoint(x,y, theta, maps_x,maps_y);
+  int next_wp = get_next_waypoint(x,y, theta, maps_x,maps_y);
   int prev_wp;
 
   prev_wp = next_wp-1;
@@ -86,14 +86,14 @@ vector<double> get_Frenet(double x, double y, double theta, const vector<double>
   double proj_x = proj_norm*n_x;
   double proj_y = proj_norm*n_y;
 
-  double frenet_d = distance(x_x,x_y,proj_x,proj_y);
+  double frenet_d = calc_distance(x_x,x_y,proj_x,proj_y);
 
   //see if d value is positive or negative by comparing it to a center point
 
   double center_x = 1000-maps_x[prev_wp];
   double center_y = 2000-maps_y[prev_wp];
-  double centerToPos = distance(center_x,center_y,x_x,x_y);
-  double centerToRef = distance(center_x,center_y,proj_x,proj_y);
+  double centerToPos = calc_distance(center_x,center_y,x_x,x_y);
+  double centerToRef = calc_distance(center_x,center_y,proj_x,proj_y);
 
   if(centerToPos <= centerToRef)
   {
@@ -104,10 +104,10 @@ vector<double> get_Frenet(double x, double y, double theta, const vector<double>
   double frenet_s = 0;
   for(int i = 0; i < prev_wp; i++)
   {
-    frenet_s += distance(maps_x[i],maps_y[i],maps_x[i+1],maps_y[i+1]);
+    frenet_s += calc_distance(maps_x[i],maps_y[i],maps_x[i+1],maps_y[i+1]);
   }
 
-  frenet_s += distance(0,0,proj_x,proj_y);
+  frenet_s += calc_distance(0,0,proj_x,proj_y);
 
   return {frenet_s,frenet_d};
 
@@ -115,7 +115,7 @@ vector<double> get_Frenet(double x, double y, double theta, const vector<double>
 
 int get_next_waypoint(double x, double y, double theta, const vector<double> &maps_x, const vector<double> &maps_y){
 
-  int closest_waypoint = ClosestWaypoint(x,y,maps_x,maps_y);
+  int closest_waypoint = get_closest_waypoint(x,y,maps_x,maps_y);
   double map_x = maps_x[closest_waypoint];
   double map_y = maps_y[closest_waypoint];
   double heading = atan2( (map_y-y),(map_x-x) );
@@ -137,7 +137,7 @@ int get_closest_waypoint(double x, double y, const vector<double> &maps_x, const
   {
     double map_x = maps_x[i];
     double map_y = maps_y[i];
-    double dist = distance(x,y,map_x,map_y);
+    double dist = calc_distance(x,y,map_x,map_y);
     if(dist < closest_len)
     {
       closest_len = dist;
@@ -200,7 +200,7 @@ int main() {
     // The 2 signifies a websocket event
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
-      auto s = hasData(data);
+      auto s = has_data(data);
 
       if (s != "") {
         auto j = json::parse(s);
@@ -325,9 +325,9 @@ int main() {
               ptsy.push_back(ref_y);
           }
           // Calc next points
-          vector<double> next_wp0 = getXY(car_s + 30, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-          vector<double> next_wp1 = getXY(car_s + 60, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-          vector<double> next_wp2 = getXY(car_s + 90, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp0 = get_xy(car_s + 30, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp1 = get_xy(car_s + 60, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp2 = get_xy(car_s + 90, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
           ptsx.push_back(next_wp0[0]);
           ptsy.push_back(next_wp0[1]);
