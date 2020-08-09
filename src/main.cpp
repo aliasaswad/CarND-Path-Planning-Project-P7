@@ -239,18 +239,18 @@ int main() {
           bool car_ahead = false;
           bool car_left = false;
           bool car_righ = false;
-          for ( int i = 0; i < sensor_fusion.size(); i++ ){
+          for (int i = 0; i < sensor_fusion.size(); i++){
               float d = sensor_fusion[i][6];
               int car_lane = -1;
               // is it on the same lane we are
               if ( d > 0 && d < 4 ) {
                 car_lane = 0;
-              } else if ( d > 4 && d < 8 ) {
+              } else if (d > 4 && d < 8){
                 car_lane = 1;
-              } else if ( d > 8 && d < 12 ) {
+              } else if (d > 8 && d < 12){
                 car_lane = 2;
               }
-              if (car_lane < 0) {
+              if (car_lane < 0){
                 continue;
               }
               // Find car speed.
@@ -260,13 +260,13 @@ int main() {
               double check_car_s = sensor_fusion[i][5];
               // Estimate car s position after executing previous trajectory.
               check_car_s += ((double)prev_size*0.02*check_speed);
-              if ( car_lane == lane ) {
+              if (car_lane == lane){
                 // Car in our lane.
                 car_ahead |= check_car_s > car_s && check_car_s - car_s < 30;
-              } else if ( car_lane - lane == -1 ) {
+              }else if(car_lane - lane == -1){
                 // Car left
                 car_left |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
-              } else if ( car_lane - lane == 1 ) {
+              } else if(car_lane - lane == 1){
                 // Car right
                 car_righ |= car_s - 30 < check_car_s && car_s + 30 > check_car_s;
               }
@@ -276,20 +276,20 @@ int main() {
           double speed_diff = 0;
           const double max_spd = 49.5;
           const double max_accel = .224;
-          if ( car_ahead ) { // Car ahead
-            if ( !car_left && lane > 0 ) {
-              // if there is no car left and there is a left lane.
-              lane--; // Change lane left.
+          if (car_ahead) { 
+            if (!car_left && lane > 0){
+              // if there is a left lane
+              lane--; // Move to lane left
             } else if ( !car_righ && lane != 2 ){
-             // if there is no car right and there is a right lane.
-              lane++; // Change lane right.
+             // if there is a right lane
+              lane++; // Move to lane right
             } else {
               speed_diff -= max_accel;
             }
           } else {
-            if ( lane != 1 ) { // if we are not on the center lane.
-              if ( ( lane == 0 && !car_righ ) || ( lane == 2 && !car_left ) ) {
-                lane = 1; // Back to center.
+            if (lane != 1){ // Check is it on the center lane
+              if ((lane == 0 && !car_righ) || (lane == 2 && !car_left)){
+                lane = 1; // Return to center
               }
             }
             if ( ref_vel < max_spd ) {
@@ -303,21 +303,24 @@ int main() {
           double ref_y = car_y;
           double ref_yaw = deg_to_rad(car_yaw);
 
-          // Check previous points
+          // Check there is a previous points
           if (prev_size < 2){
              
               double prev_car_x = car_x - cos(car_yaw);
               double prev_car_y = car_y - sin(car_yaw);
+
               ptsx.push_back(prev_car_x);
               ptsx.push_back(car_x);
               ptsy.push_back(prev_car_y);
               ptsy.push_back(car_y);
           }else{
-              // Use the last two points.
+              // Use last two points
               ref_x = previous_path_x[prev_size - 1];
               ref_y = previous_path_y[prev_size - 1];
+
               double ref_x_prev = previous_path_x[prev_size - 2];
               double ref_y_prev = previous_path_y[prev_size - 2];
+              
               ref_yaw = atan2(ref_y-ref_y_prev, ref_x-ref_x_prev);
               ptsx.push_back(ref_x_prev);
               ptsx.push_back(ref_x);
@@ -325,18 +328,18 @@ int main() {
               ptsy.push_back(ref_y);
           }
           // Calc next points
-          vector<double> next_wp0 = get_xy(car_s + 30, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-          vector<double> next_wp1 = get_xy(car_s + 60, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
-          vector<double> next_wp2 = get_xy(car_s + 90, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp_0 = get_xy(car_s + 30, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp_1 = get_xy(car_s + 60, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+          vector<double> next_wp_2 = get_xy(car_s + 90, 2 + 4*lane, map_waypoints_s, map_waypoints_x, map_waypoints_y);
 
-          ptsx.push_back(next_wp0[0]);
-          ptsy.push_back(next_wp0[1]);
-          ptsx.push_back(next_wp1[0]);
-          ptsy.push_back(next_wp1[1]);
-          ptsx.push_back(next_wp2[0]);
-          ptsy.push_back(next_wp2[1]);
+          ptsx.push_back(next_wp_0[0]);
+          ptsy.push_back(next_wp_0[1]);
+          ptsx.push_back(next_wp_1[0]);
+          ptsy.push_back(next_wp_1[1]);
+          ptsx.push_back(next_wp_2[0]);
+          ptsy.push_back(next_wp_2[1]);
           // Convert coor.
-          for ( int i = 0; i < ptsx.size(); i++ ) {
+          for (int i = 0; i < ptsx.size(); i++){
             double shift_x = ptsx[i] - ref_x;
             double shift_y = ptsy[i] - ref_y;
 
@@ -347,7 +350,7 @@ int main() {
           // Make spline
           tk::spline s;
           s.set_points(ptsx, ptsy);
-
+          // Push path points
   	      vector<double> next_x_vals;
           vector<double> next_y_vals;
           for(int i = 0; i < prev_size; i++){
@@ -410,7 +413,7 @@ int main() {
 
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
         }  // end "telemetry" if
-      } else {
+      }else{
         // Manual driving
         std::string msg = "42[\"manual\",{}]";
         ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
@@ -418,12 +421,11 @@ int main() {
     }  // end websocket if
   }); // end h.onMessage
 
-  h.onConnection([&h](uWS::WebSocket<uWS::SERVER> ws, uWS::HttpRequest req, char *data, size_t, size_t){
-    //std::cout << "Connected!!!" << std::endl;
+  h.onHttpRequest([](uWS::HttpResponse *res, uWS::HttpRequest req, char *data, size_t, size_t){
     const std::string s = "<h1>Hi!!!</h1>";
-    if (req.getUrl().valueLength == 1) {
+    if (req.getUrl().valueLength == 1){
       res->end(s.data(), s.length());
-    } else {
+    }else{
       // i guess this should be done more gracefully?
       res->end(nullptr, 0);
     }
