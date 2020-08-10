@@ -6,14 +6,42 @@ Self-Driving Car Engineer Nanodegree Program
 <img src="./results/driving.gif" width="700" height="500" align="center"/>
 
 ## Overview
-In this project the goal is to safely navigate around a virtual highway with other traffic that is driving +-10 MPH of the 50 MPH speed limit on a simulator provided by Udacity(You can download the Simulator [here](https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2)). The simulator sends car telemetry information like car's localization and sensor fusion data, plus sparse map list of waypoints around the highway. I was able to rwrite a code that make the car go as close as possible to the 50 MPH speed limit, which means passing slower traffic when possible, note that other cars trying to change lanes too. The car avoid hitting other cars at all cost as well as driving inside of the marked road lanes at all times, unless going from one lane to another. The car able to make one complete loop around the 6946m highway. Since the car is trying to go 50 MPH, it takes a little over 5 minutes to complete 1 loop. Also the car not experience total acceleration over 10 m/s^2 and jerk that is greater than 10 m/s^3. The communication between the simulator and the path planner is done using [WebSocket](https://en.wikipedia.org/wiki/WebSocket). The path planner uses the [uWebSockets](https://github.com/uNetworking/uWebSockets) WebSocket implementation to handle this communication. Udacity provides a seed project to start from on this project ([here](https://github.com/udacity/CarND-Path-Planning-Project)).
-
-
+In this project the goal is to safely navigate around a virtual highway with other traffic that is driving +-10 MPH of the 50 MPH speed limit on a simulator provided by Udacity (You can download the Simulator [here](https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2)). The simulator sends car telemetry information like car's localization and sensor fusion data, plus sparse map list of waypoints around the highway. I was able to rwrite a code that make the car go as close as possible to the 50 MPH speed limit, which means passing slower traffic when possible, note that other cars trying to change lanes too. The car avoid hitting other cars at all cost as well as driving inside of the marked road lanes at all times, unless going from one lane to another. The car able to make one complete loop around the 6946m highway. Since the car is trying to go 50 MPH, it takes a little over 5 minutes to complete 1 loop. Also the car not experience total acceleration over 10 m/s^2 and jerk that is greater than 10 m/s^3. Udacity provides a seed project to start from on this project ([here](https://github.com/udacity/CarND-Path-Planning-Project)).
 
 #### The map of the highway is in data/highway_map.txt
 Each waypoint in the list contains  [x,y,s,dx,dy] values. x and y are the waypoint's map coordinate position, the s value is the distance along the road to get to that waypoint in meters, the dx and dy values define the unit normal vector pointing outward of the highway loop.
 
 The highway's waypoints loop around so the frenet s value, distance along the road, goes from 0 to 6945.554.
+
+## Important Dependencies
+
+The minimum project dependency versions are:
+
+* cmake >= 3.5
+  * All OSes: [click here for installation instructions](https://cmake.org/install/)
+* make >= 4.1 (Linux, Mac), 3.81 (Windows)
+  * Linux: make is installed by default on most Linux distros
+  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
+  * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
+* gcc/g++ >= 5.4
+  * Linux: gcc / g++ is installed by default on most Linux distros
+  * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
+  * Windows: recommend using [MinGW](http://www.mingw.org/)
+* Udacity's Term 2 [simulator](https://github.com/udacity/self-driving-car-sim/releases)
+
+
+#### uWebSocketIO Starter Guide
+The package does this by setting up a web socket server connection from the C++ program to the simulator, which acts as the host. In the project repository there are two scripts for installing uWebSocketIO - one for Linux and the other for macOS.
+
+Note: Only uWebSocketIO branch e94b6e1, which the scripts reference, is compatible with the package installation.
+
+This repository includes two files that can be used to set up and install [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO. Please see the uWebSocketIO Starter Guide page in the classroom within the EKF Project lesson for the required version and installation scripts.
+
+
+The particular project implementation was done on **Linux OS** and the rest of this documentation will be focused on Linux OS. The project also support Mac operating system.
+
+In order to install the necessary libraries, from the project repository directory run the script either [install-ubuntu.sh](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/install-ubuntu.sh) for Linux user or  [install-mac.sh](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/install-mac.sh) for Mac user.
+
 
 ## Basic Build Instructions
 
