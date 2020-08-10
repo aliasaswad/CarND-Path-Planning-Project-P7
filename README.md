@@ -3,71 +3,107 @@ Self-Driving Car Engineer Nanodegree Program
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-<img src="./results/simulator.png" width="700" height="500" align="center"/>
+<img src="./results/driving.gif" width="700" height="500" align="center"/>
 
-
-# Overview
-
-Yes
-
-
-### Simulator.
-You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
-
-To run the simulator on Mac/Linux, first make the binary file executable with the following command:
-```shell
-sudo chmod u+x {simulator_file_name}
-```
-
-### Goals
-In this project your goal is to safely navigate around a virtual highway with other traffic that is driving +-10 MPH of the 50 MPH speed limit. You will be provided the car's localization and sensor fusion data, there is also a sparse map list of waypoints around the highway. The car should try to go as close as possible to the 50 MPH speed limit, which means passing slower traffic when possible, note that other cars will try to change lanes too. The car should avoid hitting other cars at all cost as well as driving inside of the marked road lanes at all times, unless going from one lane to another. The car should be able to make one complete loop around the 6946m highway. Since the car is trying to go 50 MPH, it should take a little over 5 minutes to complete 1 loop. Also the car should not experience total acceleration over 10 m/s^2 and jerk that is greater than 10 m/s^3.
+## Overview
+In this project the goal is to safely navigate around a virtual highway with other traffic that is driving +-10 MPH of the 50 MPH speed limit on a simulator provided by Udacity (You can download the Simulator [here](https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2)). The simulator sends car telemetry information like car's localization and sensor fusion data, plus sparse map list of waypoints around the highway. I was able to rwrite a code that make the car go as close as possible to the 50 MPH speed limit, which means passing slower traffic when possible, note that other cars trying to change lanes too. The car avoid hitting other cars at all cost as well as driving inside of the marked road lanes at all times, unless going from one lane to another. The car able to make one complete loop around the 6946m highway. Since the car is trying to go 50 MPH, it takes a little over 5 minutes to complete 1 loop. Also the car not experience total acceleration over 10 m/s^2 and jerk that is greater than 10 m/s^3. Udacity provides a seed project to start from on this project ([here](https://github.com/udacity/CarND-Path-Planning-Project)).
 
 #### The map of the highway is in data/highway_map.txt
 Each waypoint in the list contains  [x,y,s,dx,dy] values. x and y are the waypoint's map coordinate position, the s value is the distance along the road to get to that waypoint in meters, the dx and dy values define the unit normal vector pointing outward of the highway loop.
 
 The highway's waypoints loop around so the frenet s value, distance along the road, goes from 0 to 6945.554.
 
-## Basic Build Instructions
+## Important Dependencies
 
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./path_planning`.
+The minimum project dependency versions are:
 
-Here is the data provided from the Simulator to the C++ Program
+* cmake >= 3.5
+  * All OSes: [click here for installation instructions](https://cmake.org/install/)
+* make >= 4.1 (Linux, Mac), 3.81 (Windows)
+  * Linux: make is installed by default on most Linux distros
+  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
+  * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
+* gcc/g++ >= 5.4
+  * Linux: gcc / g++ is installed by default on most Linux distros
+  * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
+  * Windows: recommend using [MinGW](http://www.mingw.org/)
+* Udacity's Term 3 [simulator](https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2)
 
-#### Main car's localization Data (No Noise)
 
-["x"] The car's x position in map coordinates
+#### uWebSocketIO Starter Guide
+The communication between the simulator and the path planner is done using [WebSocket](https://en.wikipedia.org/wiki/WebSocket). The path planner uses the [uWebSockets](https://github.com/uNetworking/uWebSockets) WebSocket implementation to handle this communication. The package does this by setting up a web socket server connection from the C++ program to the simulator, which acts as the host. [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO.
 
-["y"] The car's y position in map coordinates
+The particular project implementation was done on **Linux OS** and the rest of this documentation will be focused on Linux OS. The project also support Mac operating system.
 
-["s"] The car's s position in frenet coordinates
+In order to install the necessary libraries, from the project repository directory run the script either [install-ubuntu.sh](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/install-ubuntu.sh) for Linux user or  [install-mac.sh](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/install-mac.sh) for Mac user.
 
-["d"] The car's d position in frenet coordinates
+## Project files structure
+The directory structure of this repository is as follows:
 
-["yaw"] The car's yaw angle in the map
+```
+root
+|   CMakeLists.txt
+|   LICENSE
+|   README.md
+|   cmakepatch.xt
+|   install-mac.sh
+|   install-ubuntu.sh
+|   set_git.sh
+|
+|___data
+|   |   
+|   |   highway_map.csv
+|   
+|   
+|___src
+    |   helpers.h
+    |   json.hpp
+    |   main.cpp
+    |   spline.h
+    |   particle_filter.cpp
+    |___Eigen
+    |   |   
+    |   |   ...
+    |   |   ...
+        .
+        .
+        .
+    
 
-["speed"] The car's speed in MPH
+```
+The Path Planning algorithms is implemented in [`src/main.cpp`](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/src/main.cpp). Inside `data/[highway_map.csv](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/data/highway_map.csv)` there is a list of waypoints that go all the way around the track. The track contains a total of 181 waypoints, with the last waypoint mapping back around to the first. The waypoints are in the middle of the double-yellow dividing line in the center of the highway.
 
-#### Previous path data given to the Planner
+## Running the Code
+This repository includes two files that can be used to set up and install uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO. Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
-//Note: Return the previous list but with processed points removed, can be a nice tool to show how far along
-the path has processed since last time. 
+Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
 
-["previous_path_x"] The previous list of x points previously given to the simulator
+1. Create a build directory: `mkdir build && cd build`
+2. Compile:`cmake ..`
+3. `make`, this will create executable
+    -  `path_planning`, which is our implementation
+4. Finally, run `./path_planning`
 
-["previous_path_y"] The previous list of y points previously given to the simulator
 
-#### Previous path's end s and d values 
+Alternatively some scripts have been included to streamline this process, these can be leveraged by executing the following in the top directory of the project:
+```
+$ ./clean.sh
+$ ./build.sh
+$ ./run.sh
+```
+To run the particle filter we need to run both `./run.sh` using the terminal and the simulator. The output should be like:
 
-["end_path_s"] The previous list's last point's frenet s value
+`Listening to port 4567
+`
 
-["end_path_d"] The previous list's last point's frenet d value
+Which means that the implemtation code now connected to the simulator right away.
+Run the simulator shoud show the below image:
 
-#### Sensor Fusion Data, a list of all other car's attributes on the same side of the road. (No Noise)
+<img src="./results/simulator.png" width="800" height="600" align="center"/>
 
-["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates. 
+Click the "Select" button to begin check your code behavior and how the car drive on the highway autonomously! as shown in the image below:
+
+<img src="./results/10-miles-driving.png" width="800" height="600" align="center"/>
 
 ## Details
 
