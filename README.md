@@ -103,7 +103,7 @@ Run the simulator shoud show the below image:
 
 Click the "Select" button to begin check your code behavior and how the car drive on the highway autonomously! as shown in the image below:
 
-<img src="./results/10-miles-driving.png" width="800" height="600" align="center"/>
+<img src="./results/10-miles-driving.png" width="800" height="700" align="center"/>
 
 ## Details
 
