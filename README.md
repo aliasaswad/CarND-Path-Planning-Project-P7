@@ -3,7 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-<img src="./results/driving.gif" width="471" height="600" align="center"/>
+<img src="./results/simulator.png" width="700" height="500" align="center"/>
 
 
 # Overview
