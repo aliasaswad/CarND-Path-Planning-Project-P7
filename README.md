@@ -27,28 +27,79 @@ The minimum project dependency versions are:
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
-* Udacity's Term 2 [simulator](https://github.com/udacity/self-driving-car-sim/releases)
+* Udacity's Term 3 [simulator](https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2)
 
 
 #### uWebSocketIO Starter Guide
-The package does this by setting up a web socket server connection from the C++ program to the simulator, which acts as the host. In the project repository there are two scripts for installing uWebSocketIO - one for Linux and the other for macOS.
-
-Note: Only uWebSocketIO branch e94b6e1, which the scripts reference, is compatible with the package installation.
-
-This repository includes two files that can be used to set up and install [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO. Please see the uWebSocketIO Starter Guide page in the classroom within the EKF Project lesson for the required version and installation scripts.
-
+The communication between the simulator and the path planner is done using [WebSocket](https://en.wikipedia.org/wiki/WebSocket). The path planner uses the [uWebSockets](https://github.com/uNetworking/uWebSockets) WebSocket implementation to handle this communication. The package does this by setting up a web socket server connection from the C++ program to the simulator, which acts as the host. [uWebSocketIO](https://github.com/uWebSockets/uWebSockets) for either Linux or Mac systems. For windows you can use either Docker, VMware, or even [Windows 10 Bash on Ubuntu](https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/) to install uWebSocketIO.
 
 The particular project implementation was done on **Linux OS** and the rest of this documentation will be focused on Linux OS. The project also support Mac operating system.
 
 In order to install the necessary libraries, from the project repository directory run the script either [install-ubuntu.sh](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/install-ubuntu.sh) for Linux user or  [install-mac.sh](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/install-mac.sh) for Mac user.
 
+## Project files structure
+The directory structure of this repository is as follows:
 
-## Basic Build Instructions
+```
+root
+|   CMakeLists.txt
+|   LICENSE
+|   README.md
+|   cmakepatch.xt
+|   install-mac.sh
+|   install-ubuntu.sh
+|   set_git.sh
+|
+|___data
+|   |   
+|   |   highway_map.csv
+|   
+|   
+|___src
+    |   helpers.h
+    |   json.hpp
+    |   main.cpp
+    |   spline.h
+    |   particle_filter.cpp
+    |___Eigen
+    |   |   
+    |   |   ...
+    |   |   ...
+        .
+        .
+        .
+    
 
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./path_planning`.
+```
+The Path Planning algorithms is implemented in [`src/main.cpp`](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/src/main.cpp). Inside `data/[highway_map.csv](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/data/highway_map.csv)` there is a list of waypoints that go all the way around the track. The track contains a total of 181 waypoints, with the last waypoint mapping back around to the first. The waypoints are in the middle of the double-yellow dividing line in the center of the highway.
+
+## Running the Code
+This repository includes two files that can be used to set up and install uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO. Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
+
+Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
+
+1. Create a build directory: `mkdir build && cd build`
+2. Compile:`cmake ..`
+3. `make`, this will create executable
+    -  `path_planning`, which is our implementation
+4. Finally, run `./path_planning`
+
+
+Alternatively some scripts have been included to streamline this process, these can be leveraged by executing the following in the top directory of the project:
+```
+$ ./clean.sh
+$ ./build.sh
+$ ./run.sh
+```
+To run the particle filter we need to run both `./run.sh` using the terminal and the simulator. The output should be like:
+
+`Listening to port 4567
+`
+
+Which means that the implemtation code now connected to the simulator right away.
+Run the simulator shoud show the below image:
+
+<img src="./results/simulator.png" width="800" height="600" align="center"/>
 
 Here is the data provided from the Simulator to the C++ Program
 
