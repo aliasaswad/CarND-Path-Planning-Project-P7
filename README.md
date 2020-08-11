@@ -144,7 +144,20 @@ The car does not have collisions and no collisions message was seen.
 The car able to stay in its lane most of the time except for the time between changing lanes because of traffic or to return to the center lane.
 
 #### 5- Change lanes
-The car change lanes when the there is a slow traffic in front of it, and it is safe to change lanes (uses fusion sensor data to check there are no other cars around) or when it is safe to return the center lane.
+The car change lanes when the there is a slow traffic in front of it, and it is safe to change lanes (use sensor_fusion data to check there are no other cars around) or when it is safe to return the center lane.
+
+
+## Code Reflection
+The path planning algorithm implemented in [src/main.cpp](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/src/main.cpp) from the provided code by Udacity for this seed [project](https://github.com/udacity/CarND-Path-Planning-Project). The code contain three major parts calculations:
+
+### 1. Prediction
+The file `main.ccp` contain the prediction calculations, specificlly from line_code [111 to 147](https://github.com/aliasaswad/CarND-Path-Planning-Project-P7/blob/master/src/main.cpp#L111-#L147). This part of the code deal with the telemetry and sensor fusion data. It's important that the car doesn't crash into any of the other vehicles on the road, all of which are moving at different speeds around the speed limit and can change lanes. A car is considered "dangerous" when its distance to our car is less than 30 meters in front or behind us.  
+
+The sensor_fusion variable contains all the information about the cars on the right-hand side of the road.
+### 2. Behavior
+
+### 3. Trajectory
+
 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
