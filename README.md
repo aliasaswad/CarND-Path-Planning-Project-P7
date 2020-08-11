@@ -116,10 +116,16 @@ Click the "Select" button to begin check your code behavior and how the car driv
 
 2. There be some latency between the simulator running and the path planner returning a path maybe just 1-3 time steps. During this delay the simulator will continue using points that it was last given, because of this I store the last points I have used so I can have a smooth transition which are previous_path_x, and previous_path_y. Also, I create a new path that has a smooth transition with this last path.
 
-## Tips
+### Tips
 
-A really helpful resource for doing this project and creating smooth trajectories was using http://kluge.in-chemnitz.de/opensource/spline/, the spline function is in a single hearder file is really easy to use.
+A really helpful resource for doing this project and creating smooth trajectories was using http://kluge.in-chemnitz.de/opensource/spline/, the spline function is in a single hearder file is really easy to use. It was a great suggestion from the project classroom QA video to use splines instead of polynomials.
 
+## Valid trajectories
+### The car is able to drive 20 miles and more than 30 minutes  without incident as shown below:
+
+<img src="./results/20-miles-driving.png" width="800" height="600" align="center"/>
+
+<img src="./results/30-minutes-driving.png" width="800" height="600" align="center"/> 
 
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
