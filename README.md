@@ -121,9 +121,11 @@ Click the "Select" button to begin check your code behavior and how the car driv
 A really helpful resource for doing this project and creating smooth trajectories was using http://kluge.in-chemnitz.de/opensource/spline/, the spline function is in a single hearder file is really easy to use. It was a great suggestion from the project classroom QA video to use splines instead of polynomials.
 
 ## Valid trajectories
-### The car is able to drive 20 miles and more than 30 minutes  without incident as shown below:
+#### The car is able to drive 20 miles without incident as shown below:
 
 <img src="./results/20-miles-driving.png" width="800" height="600" align="center"/>
+
+And more than 30 minutes:
 
 <img src="./results/30-minutes-driving.png" width="800" height="600" align="center"/> 
 
