@@ -129,6 +129,23 @@ And more than 30 minutes:
 
 <img src="./results/30-minutes-driving.png" width="800" height="600" align="center"/> 
 
+I want to mention that for:
+
+#### 1- Speed
+The car drives according to the speed limit, and no speed limit red message was seen.
+ 
+#### 2- Jerk
+Max Acceleration and Jerk are not exceeded, and no max jerk red message was seen.
+
+#### 3- Collision
+The car does not have collisions and no collisions message was seen.
+
+#### 4- Stay in lane
+The car able to stay in its lane most of the time except for the time between changing lanes because of traffic or to return to the center lane.
+
+#### 5- Change lanes
+The car change lanes when the there is a slow traffic in front of it, and it is safe to change lanes (uses fusion sensor data to check there are no other cars around) or when it is safe to return the center lane.
+
 ## How to write a README
 A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
