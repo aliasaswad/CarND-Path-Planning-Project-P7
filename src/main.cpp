@@ -171,13 +171,13 @@ int main() {
               }
             }
 
-          	vector<double> ptsx;
+            vector<double> ptsx;
             vector<double> ptsy;
-
             double ref_x = car_x;
             double ref_y = car_y;
             double ref_yaw = deg2rad(car_yaw);
 
+		
             // Check there is a previous points
             if ( prev_size < 2 ) {
                 
